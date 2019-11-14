@@ -15,7 +15,8 @@
             "internalConsoleOptions": "neverOpen",
             "skipFiles": [
                 "<node_internals>/**"
-            ]
+            ],
+            "envFile": "${workspaceFolder}/.env"
         },
         {
             "type": "node",
@@ -24,7 +25,8 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\bin\\www"
+            "program": "${workspaceFolder}\\bin\\www",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
