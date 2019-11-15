@@ -1,0 +1,17 @@
+body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: #0c224a;
+    color: white;
+    margin: 2rem;
+}
+h1 {
+}
+table {
+    font-size: 1.5em;
+}
+tr:nth-child(odd) {
+    background: #3964b3;
+}
+td {
+    padding: .5em;
+}

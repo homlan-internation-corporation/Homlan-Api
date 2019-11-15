@@ -6,7 +6,7 @@ const router = express.Router();
 
 const pug = require('pug');
 
-const compileNewsRequestEmail = pug.compileFile('./views/news-request-email.pug');
+const compileEmailForm = pug.compileFile('./views/email-form.pug');
 
 router.post('/', async (req, res) => {
     console.log(req.body);
@@ -20,12 +20,10 @@ router.post('/', async (req, res) => {
     });
 
     let info = await transporter.sendMail({
-        from: `"Homlan.com" homlansmtp@gmail.com`, // sender address
+        from: `"${req.body.name}" homlansmtp@gmail.com`, // sender address
         to: process.env.EMAIL_RECIPIENT, // list of receivers
-        subject: 'News Letter Request', // Subject line
-        html: compileNewsRequestEmail({
-            email: req.body.email
-        }),
+        subject: `${req.body.name}寄來詢價單!`, // Subject line
+        html: compileEmailForm(req.body),
     }, (err, info) => {
         if (err)
             console.log(err);

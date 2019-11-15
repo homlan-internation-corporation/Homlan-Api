@@ -25,6 +25,10 @@ app.use(cors())
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.get('/email-sample', function (req, res, next) {
+  res.render('email-form', { name: 'Sandy', company: 'Homlan', email: 'sandy@homlan.com', phone: '00000000', reason: 'I wanna see some stuff.' });
+});
+
 
 app.use('/email-form', emailFormRouter);
 
