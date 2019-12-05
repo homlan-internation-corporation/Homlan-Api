@@ -8,7 +8,7 @@ const pug = require('pug');
 
 const compileEmailForm = pug.compileFile('./views/email-form.pug');
 
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
     console.log(req.body);
 
     let transporter = nodemailer.createTransport({
@@ -19,19 +19,30 @@ router.post('/', async (req, res) => {
         }
     });
 
-    let info = await transporter.sendMail({
+    await transporter.sendMail({
         from: `"${req.body.name}" homlansmtp@gmail.com`, // sender address
         to: process.env.EMAIL_RECIPIENT, // list of receivers
         subject: `${req.body.name}寄來詢價單!`, // Subject line
         html: compileEmailForm(req.body),
     }, (err, info) => {
-        if (err)
-            console.log(err);
-        else
-            console.log(info);
+        if (err) {
+            next(err)
+        } else {
+            res.info = info
+            next()
+        }
     });
+})
 
-    res.end();
+router.use(function (err, req, res, next) {
+    console.error(err);
+    res.status(500).send('Something broke!')
+    next()
+})
+
+router.post('/', async (req, res) => {
+    console.log(res.info);
+    res.send("success!")
 });
 
 module.exports = router;
