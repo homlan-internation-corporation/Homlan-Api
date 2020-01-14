@@ -7,10 +7,10 @@ const router = express.Router();
 const Joi = require('@hapi/joi');
 const formSchema = Joi.object({
     name: Joi.string().required(),
-    company: Joi.string(),
+    company: Joi.string().allow(''),
     email: Joi.string().email().required(),
-    phone: Joi.string(),
-    reason: Joi.string()
+    phone: Joi.string().allow(''),
+    reason: Joi.string().allow('')
 })
 
 const pug = require('pug');
@@ -22,6 +22,7 @@ router.post('/', async (req, res, next) => {
     const result = formSchema.validate(req.body);
     if (result.error) {
         res.status(422).send('Invalid Format')
+        console.error(result.error);
     } else {
         next()
     }
