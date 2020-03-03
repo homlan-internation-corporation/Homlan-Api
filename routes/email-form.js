@@ -23,7 +23,7 @@ router.post('/', async (req, res, next) => {
     const data = JSON.stringify(req.body);
 
     const options = {
-        hostname: "en6wauwie4q1b.x.pipedream.net",
+        hostname: process.env.REQUEST_BIN_URL,
         port: 443,
         path: "/",
         method: "POST",
@@ -54,7 +54,7 @@ router.post('/', async (req, res, next) => {
 //Send Email
 router.post('/', async (req, res, next) => {
     let transporter = nodemailer.createTransport({
-        service: 'gmail',
+        service: 'SendPulse',
         auth: {
             user: process.env.SMTP_USER,
             pass: process.env.SMTP_PASS
@@ -62,7 +62,7 @@ router.post('/', async (req, res, next) => {
     });
 
     await transporter.sendMail({
-        from: `"${req.body.name}" homlansmtp@gmail.com`, // sender address
+        from: `"${req.body.name}" ${process.env.SMTP_SENDER}`, // sender address
         to: process.env.EMAIL_RECIPIENT, // list of receivers
         subject: `${req.body.name}寄來詢價單!`, // Subject line
         html: compileEmailForm(req.body),
